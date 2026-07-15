@@ -1,10 +1,17 @@
-import { createClient } from "@supabase/supabase-js";
+import { createClient, SupabaseClient } from "@supabase/supabase-js";
 import { createBrowserClient, createServerClient } from "@supabase/ssr";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+let _supabase: SupabaseClient | null = null;
+function getSupabase(): SupabaseClient {
+  if (!_supabase) {
+    _supabase = createClient(supabaseUrl, supabaseAnonKey);
+  }
+  return _supabase;
+}
+export { getSupabase as supabase };
 
 export function createSupabaseBrowserClient() {
   return createBrowserClient(supabaseUrl, supabaseAnonKey);
@@ -44,7 +51,7 @@ export const STORAGE_PATHS = {
 } as const;
 
 export function getPublicUrl(bucket: string, path: string) {
-  const { data } = supabase.storage.from(bucket).getPublicUrl(path);
+  const { data } = getSupabase().storage.from(bucket).getPublicUrl(path);
   return data.publicUrl;
 }
 
@@ -53,7 +60,7 @@ export async function uploadFile(
   path: string,
   file: File | ArrayBuffer
 ) {
-  const { data, error } = await supabase.storage
+  const { data, error } = await getSupabase().storage
     .from(bucket)
     .upload(path, file, {
       cacheControl: "3600",
@@ -65,6 +72,6 @@ export async function uploadFile(
 }
 
 export async function deleteFile(bucket: string, paths: string[]) {
-  const { error } = await supabase.storage.from(bucket).remove(paths);
+  const { error } = await getSupabase().storage.from(bucket).remove(paths);
   if (error) throw error;
 }
