@@ -10,7 +10,7 @@ const supabase = createClient(
 );
 
 export async function createProject(name: string, description?: string) {
-  const { userId } = auth();
+  const { userId } = await auth();
 
   if (!userId) {
     throw new Error("Unauthorized");
@@ -48,7 +48,7 @@ export async function updateProject(
   projectId: string,
   updates: { name?: string; description?: string; status?: string }
 ) {
-  const { userId } = auth();
+  const { userId } = await auth();
 
   if (!userId) {
     throw new Error("Unauthorized");
@@ -71,7 +71,7 @@ export async function updateProject(
 }
 
 export async function deleteProject(projectId: string) {
-  const { userId } = auth();
+  const { userId } = await auth();
 
   if (!userId) {
     throw new Error("Unauthorized");
@@ -91,7 +91,7 @@ export async function deleteProject(projectId: string) {
 }
 
 export async function getUserProjects() {
-  const { userId } = auth();
+  const { userId } = await auth();
 
   if (!userId) {
     throw new Error("Unauthorized");
@@ -135,7 +135,7 @@ export async function getProject(projectId: string) {
 }
 
 export async function toggleFavorite(imageId: string) {
-  const { userId } = auth();
+  const { userId } = await auth();
 
   if (!userId) {
     throw new Error("Unauthorized");
@@ -171,7 +171,7 @@ export async function toggleFavorite(imageId: string) {
 }
 
 export async function getUserCredits() {
-  const { userId } = auth();
+  const { userId } = await auth();
 
   if (!userId) {
     throw new Error("Unauthorized");
@@ -191,7 +191,7 @@ export async function getUserCredits() {
 }
 
 export async function deductCredit() {
-  const { userId } = auth();
+  const { userId } = await auth();
 
   if (!userId) {
     throw new Error("Unauthorized");
