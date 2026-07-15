@@ -6,7 +6,6 @@ import {
   User,
   Mail,
   Calendar,
-  MapLink,
   ExternalLink,
   Copy,
   Settings,
