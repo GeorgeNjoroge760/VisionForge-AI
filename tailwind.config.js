@@ -118,7 +118,7 @@ module.exports = {
           "0%": { backgroundPosition: "-700px 0" },
           "100%": { backgroundPosition: "700px 0" },
         },
-        pulse.glow: {
+        "pulse-glow": {
           "0%, 100%": { boxShadow: "0 0 20px rgba(79, 70, 229, 0.3)" },
           "50%": { boxShadow: "0 0 40px rgba(79, 70, 229, 0.6)" },
         },
@@ -132,7 +132,7 @@ module.exports = {
         "slide-in-left": "slide-in-left 0.3s ease-out",
         "scale-in": "scale-in 0.2s ease-out",
         shimmer: "shimmer 2s infinite linear",
-        "pulse-glow": "pulse.glow 2s infinite ease-in-out",
+        "pulse-glow": "pulse-glow 2s infinite ease-in-out",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
@@ -142,5 +142,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [],
 };
