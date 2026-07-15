@@ -78,12 +78,42 @@ export default function NewProjectPage() {
     setIsGenerating(true);
     setStep(3);
 
-    // Simulate generation
-    setTimeout(() => {
-      setIsGenerating(false);
+    try {
+      const formData = new FormData();
+      formData.append("file", uploadedFile!);
+
+      const uploadRes = await fetch("/api/upload", { method: "POST", body: formData });
+      const uploadData = await uploadRes.json();
+
+      if (!uploadRes.ok) {
+        throw new Error(uploadData.error || "Upload failed");
+      }
+
+      const generateRes = await fetch("/api/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          imageUrl: uploadData.data.url,
+          prompt,
+          style: selectedStyle,
+        }),
+      });
+
+      const generateData = await generateRes.json();
+
+      if (!generateRes.ok) {
+        throw new Error(generateData.error || "Generation failed");
+      }
+
       toast.success("Image generated successfully!");
       router.push("/projects/demo-result");
-    }, 3000);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Something went wrong";
+      toast.error(message);
+      setStep(2);
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   const handleRemoveFile = () => {
