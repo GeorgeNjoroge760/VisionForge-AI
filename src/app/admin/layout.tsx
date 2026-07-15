@@ -1,5 +1,4 @@
 import { Sidebar } from "@/components/dashboard/sidebar";
-import { ADMIN_NAV_ITEMS } from "@/constants";
 
 export default function AdminLayout({
   children,
@@ -8,7 +7,7 @@ export default function AdminLayout({
 }) {
   return (
     <div className="min-h-screen">
-      <Sidebar navItems={ADMIN_NAV_ITEMS} />
+      <Sidebar />
       <div className="md:pl-64">
         <main className="p-4 sm:p-6 lg:p-8">{children}</main>
       </div>
