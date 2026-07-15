@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
       size: "1024x1024",
     });
 
-    const generatedUrl = response.data[0].url;
+    const generatedUrl = response.data?.[0]?.url ?? "";
 
     return NextResponse.json({
       success: true,
