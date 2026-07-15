@@ -2,9 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import OpenAI from "openai";
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+function getOpenAI() {
+  return new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -27,7 +27,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Enhance prompt based on style
     let enhancedPrompt = prompt;
     if (style) {
       const stylePrompts: Record<string, string> = {
@@ -49,7 +48,7 @@ export async function POST(request: NextRequest) {
       enhancedPrompt = `${prompt}, ${stylePrompts[style] || ""}`;
     }
 
-    // Generate image using OpenAI
+    const openai = getOpenAI();
     const response = await openai.images.edit({
       model: "dall-e-3",
       image: imageUrl,
